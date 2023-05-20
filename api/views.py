@@ -17,11 +17,14 @@ def create_user(request):
     if not username:
         raise ValueError("Invalid username")
 
-    try:
-        user = CustomUser.objects.get(username=username)
+    # именованный параметр `iexact` для регистронезависимого поиска
+    users = CustomUser.objects.filter(username__iexact=username)
+
+    if users.exists():
+        user = users.first()
         serializer = UserSerializer(user)
         return Response(serializer.data)
-    except CustomUser.DoesNotExist:
+    else:
         user = CustomUser(username=username)
         user.save()
         serializer = UserSerializer(user)
