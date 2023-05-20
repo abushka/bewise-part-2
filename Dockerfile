@@ -11,7 +11,7 @@ WORKDIR /app
 COPY requirements.txt .env ./
 
 # Устанавливаем зависимости проекта
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Устанавливаем ffmpeg и PostgreSQL-клиент
 RUN apt-get update \
